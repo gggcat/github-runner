@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  runner:
+  runner-build:
     build:
       context: .
       dockerfile: runner.Dockerfile
@@ -20,6 +20,14 @@ services:
     volumes:
         - .:/work
         - /var/run/docker.sock:/var/run/docker.sock
+    # 環境変数
+    environment:
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      GITHUB_USER: ${GITHUB_USER}
+
+  runner:
+    image: zzzcat/github-runner
+    tty: true
     # 環境変数
     environment:
       GITHUB_TOKEN: ${GITHUB_TOKEN}
