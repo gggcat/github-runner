@@ -10,15 +10,18 @@ NAME=$4
 REGISTER_ONLY=$5
 
 cleanup() {
-    token=$(curl -s -XPOST -H "authorization: token ${PAT}" \
+    token=$(curl -s -XPOST \
+        -H "authorization: token ${PAT}" \
         https://api.github.com/repos/${OWNER}/${REPO}/actions/runners/registration-token | jq -r .token)
     ./config.sh remove --token $token
 }
 
+echo "TOKEN-URL: https://api.github.com/repos/${OWNER}/${REPO}/actions/runners/registration-token"
 token=$(curl -s -XPOST \
     -H "authorization: token ${PAT}" \
     https://api.github.com/repos/${OWNER}/${REPO}/actions/runners/registration-token | jq -r .token)
 
+echo "CONFIG-URL: https://github.com/${OWNER}/${REPO}"
 ./config.sh \
     --url https://github.com/${OWNER}/${REPO} \
     --token ${token} \
