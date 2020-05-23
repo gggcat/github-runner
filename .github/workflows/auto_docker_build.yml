@@ -4,9 +4,10 @@ name: Build Runner
 # Controls when the action will run. Triggers the workflow on push or pull request 
 # events but only for the master branch
 on:
-  #push:
-  #  branches:
-  #    - master
+  push:
+    paths:
+    - docker-runner/**'
+
   schedule:
     # At 00:00 on Monday.
     - cron:  '0 0 * * 1'
