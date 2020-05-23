@@ -18,7 +18,9 @@ services:
       context: .
       dockerfile: runner.Dockerfile
     tty: true
-    command: ${GITHUB_USER} "test_repo" ${GITHUB_TOKEN} "myrunner"
+    entrypoint: bash
+    #command: bash
+    #command: ${GITHUB_USER} "test_repo" ${GITHUB_TOKEN} "myrunner"
     # 環境変数
     environment:
       GITHUB_TOKEN: ${GITHUB_TOKEN}

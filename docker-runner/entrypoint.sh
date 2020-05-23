@@ -23,6 +23,8 @@ token=$(curl -s -XPOST \
 
 echo "CONFIG-URL: https://github.com/${OWNER}/${REPO}"
 ./config.sh \
+    --unattended \
+    --replace \
     --url https://github.com/${OWNER}/${REPO} \
     --token ${token} \
     --name ${NAME} \
