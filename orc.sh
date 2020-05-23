@@ -3,7 +3,7 @@
 PAT=$1
 OWNER=$2
 REPO=$3
-RUNNER_NAME="RUNNER-$(date '+%Y%m%d%H%M')"
+RUNNER_NAME="${REPO}-RUN"
 
 # make sure we have values for all our arguments
 [ -z ${PAT} ] || [ -z ${OWNER} ] || [ -z $REPO ] && {
@@ -14,7 +14,7 @@ RUNNER_NAME="RUNNER-$(date '+%Y%m%d%H%M')"
 # get the date format in the format the github api wants
 function five_minutes_ago {
     #echo $(date --iso-8601=seconds --date='5 minutes ago' | awk -F'+' '{print $1}')
-    echo $(date --iso-8601=seconds --date='18000 minutes ago' | awk -F'+' '{print $1}')
+    echo $(date --iso-8601=seconds --date='30 minutes ago' | awk -F'+' '{print $1}')
 }
 
 echo "Getting commits from the last 5 minutes ..."
@@ -29,7 +29,7 @@ if [ ${commit_status} = "200" ]; then
         https://api.github.com/repos/${OWNER}/${REPO}/commits?since="$(five_minutes_ago)Z" \
         | jq -r '.[].sha')
 else
-    echo "Checking ${commit} for check requests ..."
+    echo "no commits"
     exit 0
 fi
 

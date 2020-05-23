@@ -1,6 +1,6 @@
 FROM python:3.8-slim
 
-ENV RUNNER_VERSION=2.164.0
+#ENV RUNNER_VERSION=2.164.0
 
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends apt-utils && \
@@ -11,8 +11,12 @@ RUN apt-get update -y && \
 
 RUN useradd -m actions && \
     cd /home/actions && mkdir actions-runner && cd actions-runner  && \
-    wget https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz && \
-    tar xzf ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz && \
+    export RUNNER_URL=$(curl -s https://api.github.com/repos/actions/runner/releases/latest | jq -r '.assets[].browser_download_url | select(. | contains("linux-x64"))') && \
+    wget ${RUNNER_URL} && \
+    export RUNNER_VERSION=$(curl -s https://api.github.com/repos/actions/runner/releases/latest | jq -r '.assets[].name | select(. | contains("linux-x64"))') && \
+    tar xzf ${RUNNER_VERSION} && \
+    #wget https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz && \
+    #tar xzf ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz && \
     echo "*** INSTALLED: GitHub actions modules ***"
 
 WORKDIR /home/actions/actions-runner

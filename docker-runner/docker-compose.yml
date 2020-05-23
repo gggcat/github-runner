@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  builder:
+  autobuild-docker:
     image: zzzcat/dispshell:docker
     tty: true
     working_dir: /work
@@ -13,33 +13,12 @@ services:
       DOCKERHUB_USER: ${DOCKERHUB_USER}
       DOCKERHUB_PASS: ${DOCKERHUB_PASS}
 
-  runner-build:
+  runner:
     build:
       context: .
       dockerfile: runner.Dockerfile
     tty: true
     command: ${GITHUB_USER} "test_repo" ${GITHUB_TOKEN} "myrunner"
-    # 環境変数
-    environment:
-      GITHUB_TOKEN: ${GITHUB_TOKEN}
-      GITHUB_USER: ${GITHUB_USER}
-
-  orc:
-    build:
-      context: .
-      dockerfile: orchestrator.Dockerfile
-    tty: true
-    volumes:
-        - .:/work
-        - /var/run/docker.sock:/var/run/docker.sock
-    # 環境変数
-    environment:
-      GITHUB_TOKEN: ${GITHUB_TOKEN}
-      GITHUB_USER: ${GITHUB_USER}
-
-  runner:
-    image: zzzcat/github-runner
-    tty: true
     # 環境変数
     environment:
       GITHUB_TOKEN: ${GITHUB_TOKEN}
