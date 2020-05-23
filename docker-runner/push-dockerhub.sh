@@ -18,6 +18,6 @@ done
 # DockerHub に Push
 CONTAINER_NAME="${CONTAINER_REPOSITORY_NAME}:${TAG_NAME}"
 CONTAINER_LATEST="${CONTAINER_REPOSITORY_NAME}:latest"
-docker login -u ${DOCKERHUB_USER} -p ${DOCKERHUB_PASS}
+docker login -u ${DOCKERHUB_USER} -p ${DOCKERHUB_TOKEN}
 docker build -t ${CONTAINER_NAME} -t ${CONTAINER_LATEST} -f runner.Dockerfile .
 docker push ${CONTAINER_NAME}
