@@ -8,7 +8,7 @@ on:
     branches:
       - master
     paths:
-      - docker-runner/**'
+      - 'docker-runner/**'
 
   schedule:
     # At 00:00 on Monday.
