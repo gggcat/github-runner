@@ -1,6 +1,8 @@
 #!/bin/bash
 
 REPOSITORIES=$(cat repos.json | jq -r '.[].repository_name')
+# get latest runner image
+docker-compose pull
 
 for REPOSITORY_NAME in ${REPOSITORIES}; do 
     # repository have runnners?

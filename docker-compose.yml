@@ -1,29 +1,6 @@
 version: '3'
 
 services:
-  builder:
-    image: zzzcat/dispshell:docker
-    tty: true
-    working_dir: /work
-    command: bash push-dockerhub.sh
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - .:/work/.:ro
-    environment:
-      DOCKERHUB_USER: ${DOCKERHUB_USER}
-      DOCKERHUB_PASS: ${DOCKERHUB_PASS}
-
-  runner-build:
-    build:
-      context: .
-      dockerfile: runner.Dockerfile
-    tty: true
-    command: ${GITHUB_USER} "test_repo" ${GITHUB_TOKEN} "myrunner"
-    # 環境変数
-    environment:
-      GITHUB_TOKEN: ${GITHUB_TOKEN}
-      GITHUB_USER: ${GITHUB_USER}
-
   orc:
     build:
       context: .
@@ -38,7 +15,7 @@ services:
       GITHUB_USER: ${GITHUB_USER}
 
   runner:
-    image: zzzcat/github-runner
+    image: zzzcat/github-runner:latest
     tty: true
     # 環境変数
     environment:
