@@ -11,7 +11,7 @@ services:
       - .:/work/.:ro
     environment:
       DOCKERHUB_USER: ${DOCKERHUB_USER}
-      DOCKERHUB_PASS: ${DOCKERHUB_PASS}
+      DOCKERHUB_TOKEN: ${DOCKERHUB_TOKEN}
 
   runner:
     build:
