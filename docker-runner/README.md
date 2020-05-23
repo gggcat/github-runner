@@ -8,4 +8,4 @@ https://api.github.com/repos/actions/runner/releases/latest
 ## 自動実行
 
 - Weeklyの定期自動ビルド
-- docker-runnerディレクトリが更新された場合
+- docker-runnerディレクトリの更新をmasterにpushした場合
