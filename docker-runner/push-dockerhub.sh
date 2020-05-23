@@ -21,3 +21,4 @@ CONTAINER_LATEST="${CONTAINER_REPOSITORY_NAME}:latest"
 docker login -u ${DOCKERHUB_USER} -p ${DOCKERHUB_TOKEN}
 docker build -t ${CONTAINER_NAME} -t ${CONTAINER_LATEST} -f runner.Dockerfile .
 docker push ${CONTAINER_NAME}
+docker push ${CONTAINER_LATEST}
