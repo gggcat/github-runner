@@ -4,12 +4,12 @@ name: Build Runner
 # Controls when the action will run. Triggers the workflow on push or pull request 
 # events but only for the master branch
 on:
-  push:
-    branches:
-      - master
-  #schedule:
+  #push:
+  #  branches:
+  #    - master
+  schedule:
     # At 00:00 on Monday.
-  #  - cron:  '0 0 * * 1'
+    - cron:  '0 0 * * 1'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
