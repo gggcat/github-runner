@@ -7,6 +7,8 @@ RUN apt-get update -y && \
     apt-get install -y --no-install-recommends curl && \
     apt-get install -y --no-install-recommends wget && \
     apt-get install -y --no-install-recommends jq && \
+    apt-get install -y --no-install-recommends docker.io && \
+    apt-get install -y --no-install-recommends docker-compose && \
     echo "*** INSTALLED: ubuntu modules ***"
 
 RUN useradd -m actions && \
