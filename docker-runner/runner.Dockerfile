@@ -26,6 +26,7 @@ WORKDIR /home/actions/actions-runner
 
 RUN chown -R actions ~actions && /home/actions/actions-runner/bin/installdependencies.sh 
 
+RUN echo "actions	ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers
 USER actions
 
 COPY entrypoint.sh .
