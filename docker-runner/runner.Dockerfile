@@ -9,6 +9,7 @@ RUN apt-get update -y && \
     apt-get install -y --no-install-recommends jq && \
     apt-get install -y --no-install-recommends docker.io && \
     apt-get install -y --no-install-recommends docker-compose && \
+    apt-get install -y --no-install-recommends sudo && \
     echo "*** INSTALLED: ubuntu modules ***"
 
 RUN useradd -m actions && \
@@ -25,7 +26,7 @@ WORKDIR /home/actions/actions-runner
 
 RUN chown -R actions ~actions && /home/actions/actions-runner/bin/installdependencies.sh 
 
-#USER actions
+USER actions
 
 COPY entrypoint.sh .
 ENTRYPOINT ["bash", "entrypoint.sh"]
