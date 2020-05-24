@@ -3,6 +3,9 @@ CRON_LOG=/var/log/cron.log
 
 # make repositories.jsonl
 bash get_repositories.sh
+sleep 2.0
+bash clean_runner.sh
+sleep 2.0
 
 env > ${CRON_CONFIG}
 echo "" >> ${CRON_CONFIG}
