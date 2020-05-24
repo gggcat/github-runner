@@ -6,15 +6,8 @@ services:
     tty: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - workspace:/home/actions/actions-runner:rw
+      - /host-share/action-runner:/home/actions/actions-runner:rw
     # 環境変数
     environment:
       GITHUB_TOKEN: ${GITHUB_TOKEN}
       GITHUB_USER: ${GITHUB_USER}
-volumes:
-  workspace:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /work/action-runner
