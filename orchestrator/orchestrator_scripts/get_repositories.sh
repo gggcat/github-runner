@@ -6,7 +6,7 @@ REPOSITORY_NAME=$1
 function get_repositories () {
     REPOSITORIES=$( curl -s -H "accept: application/vnd.github.antiope-preview+json" \
         -H "authorization: token ${GITHUB_TOKEN}" \
-        https://api.github.com/users/${GITHUB_USER}/repos \
+        https://api.github.com//user/repos \
         | jq -r '.[].name')
 
     echo ${REPOSITORIES}
