@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  autobuild-docker:
+    image: zzzcat/dispshell:docker
+    tty: true
+    working_dir: /work
+    command: bash push-dockerhub.sh
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - .:/work/.:ro
+    environment:
+      DOCKERHUB_USER: ${DOCKERHUB_USER}
+      DOCKERHUB_TOKEN: ${DOCKERHUB_TOKEN}
+
+  orc:
+    build:
+      context: .
+      dockerfile: orchestrator.Dockerfile
+    tty: true
+    entrypoint: bash
+    volumes:
+        - .:/work
+        - /var/run/docker.sock:/var/run/docker.sock
+    # 環境変数
+    environment:
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      GITHUB_USER: ${GITHUB_USER}
+
+  runner:
+    image: zzzcat/github-runner:latest
+    tty: true
+    # 環境変数
+    environment:
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      GITHUB_USER: ${GITHUB_USER}

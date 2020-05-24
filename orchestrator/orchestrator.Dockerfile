@@ -1,7 +1,5 @@
 FROM python:3.8-slim
 
-ENV RUNNER_VERSION=2.164.0
-
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends apt-utils && \
     apt-get install -y --no-install-recommends curl && \
@@ -14,20 +12,6 @@ RUN apt-get update -y && \
 
 WORKDIR /home/orchestrator
 
-# Cron
-#RUN echo "*/5 * * * * root cd /home/orchestrator && /bin/bash -l env >> /var/log/cron.log" > /etc/cron.d/runner-cron && \
-#    chmod 0644 /etc/cron.d/runner-cron && \
-#    crontab /etc/cron.d/runner-cron && \
-#    touch /var/log/cron.log && \
-#    echo "*** INSTALLED: cron settings ***"
+COPY orchestrator_scripts/* ./
 
-COPY cronpoint.sh .
-COPY docker-compose.yml .
-COPY orc_runner.sh .
-COPY orchestrator.Dockerfile .
-COPY runner.Dockerfile .
-COPY orc.sh .
-COPY repos.json .
-#ENTRYPOINT ["bash", "-c"]
-#CMD ["cron", "-f"]
 ENTRYPOINT ["bash", "cronpoint.sh"]
