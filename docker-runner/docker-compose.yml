@@ -21,7 +21,8 @@ services:
     entrypoint: bash
     #command: bash
     #command: ${GITHUB_USER} "test_repo" ${GITHUB_TOKEN} "myrunner"
-    # 環境変数
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       GITHUB_TOKEN: ${GITHUB_TOKEN}
       GITHUB_USER: ${GITHUB_USER}
