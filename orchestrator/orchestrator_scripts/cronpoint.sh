@@ -20,4 +20,4 @@ crontab ${CRON_CONFIG}
 touch ${CRON_LOG}
 
 # do cron
-cron && tail -f touch ${CRON_LOG}
+cron && tail -f ${CRON_LOG}
