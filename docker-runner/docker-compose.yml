@@ -13,6 +13,18 @@ services:
       DOCKERHUB_USER: ${DOCKERHUB_USER}
       DOCKERHUB_TOKEN: ${DOCKERHUB_TOKEN}
 
+  forcebuild-docker:
+    image: zzzcat/dispshell:docker
+    tty: true
+    working_dir: /work
+    command: bash push-dockerhub.sh force
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - .:/work/.:ro
+    environment:
+      DOCKERHUB_USER: ${DOCKERHUB_USER}
+      DOCKERHUB_TOKEN: ${DOCKERHUB_TOKEN}
+
   runner:
     build:
       context: .

@@ -1,4 +1,5 @@
 #!/bin/bash
+FORCE=$1
 
 CONTAINER_REPOSITORY_NAME="zzzcat/github-runner"
 # GitHub Runner
@@ -10,8 +11,10 @@ TAG_NAME=${RUNNER_VERSION}
 # Docker Hubにイメージがある場合はスキップする
 for DOCKERHUB_VERSION in ${DOCKER_HUB_VERSIONS[@]}; do
     if [ ${DOCKERHUB_VERSION} = ${RUNNER_VERSION} ]; then
-        echo "already docker images ${RUNNER_VERSION}"
-        exit 0
+        if [ ${FORCE} != "force" ]; then
+            echo "already docker images ${RUNNER_VERSION}"
+            exit 0
+        fi
     fi
 done
 
