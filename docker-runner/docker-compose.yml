@@ -35,6 +35,7 @@ services:
     #command: ${GITHUB_USER} "test_repo" ${GITHUB_TOKEN} "myrunner"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - /host-share/work-runner/_work:/work-runner/_work:rw
     environment:
       GITHUB_TOKEN: ${GITHUB_TOKEN}
       GITHUB_USER: ${GITHUB_USER}

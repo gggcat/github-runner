@@ -1,38 +1,25 @@
 #!/bin/bash
 
-OWNER=$1
-REPO=$2
-PAT=$3
-NAME=$4
+REPOSITORY_NAME=$1
+RUNNER_NAME=$2
+IS_ONLY_REGIST=$3
+CLEAN_WAIT_TIME=5.0
 
-# if set this script will only run ./config.sh
-# it will not run the actions runner
-REGISTER_ONLY=$5
+echo "Runner-token url: https://api.github.com/repos/${GITHUB_USER}/${REPOSITORY_NAME}/actions/runners/registration-token"
+RUNNER_TOKEN=$(curl -s -X POST \
+    -H "authorization: token ${GITHUB_TOKEN}" \
+    https://api.github.com/repos/${GITHUB_USER}/${REPOSITORY_NAME}/actions/runners/registration-token | jq -r .token)
 
-cleanup() {
-    token=$(curl -s -XPOST \
-        -H "authorization: token ${PAT}" \
-        https://api.github.com/repos/${OWNER}/${REPO}/actions/runners/registration-token | jq -r .token)
-        sleep 5.0
-    ./config.sh remove --token $token
-    echo "CLEAN: $?"
-}
-
-echo "TOKEN-URL: https://api.github.com/repos/${OWNER}/${REPO}/actions/runners/registration-token"
-token=$(curl -s -XPOST \
-    -H "authorization: token ${PAT}" \
-    https://api.github.com/repos/${OWNER}/${REPO}/actions/runners/registration-token | jq -r .token)
-
-echo "CONFIG-URL: https://github.com/${OWNER}/${REPO}"
 ./config.sh \
     --unattended \
     --replace \
-    --url https://github.com/${OWNER}/${REPO} \
-    --token ${token} \
-    --name ${NAME} \
+    --url https://github.com/${GITHUB_USER}/${REPOSITORY_NAME} \
+    --token ${RUNNER_TOKEN} \
+    --name ${RUNNER_NAME} \
     --work _work
 
-if [ -z ${REGISTER_ONLY} ]; then
+if [ -z ${IS_ONLY_REGIST} ]; then
     ./run.sh --once
-    cleanup
+    sleep ${CLEAN_WAIT_TIME}
+    ./config.sh remove --token ${RUNNER_TOKEN}
 fi
