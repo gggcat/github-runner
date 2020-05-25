@@ -13,7 +13,7 @@ services:
       DOCKERHUB_USER: ${DOCKERHUB_USER}
       DOCKERHUB_TOKEN: ${DOCKERHUB_TOKEN}
 
-  orc:
+  orchestrator:
     build:
       context: .
       dockerfile: orchestrator.Dockerfile
@@ -21,15 +21,8 @@ services:
     entrypoint: bash
     volumes:
         - .:/work
+        - /work:/host-share:rw
         - /var/run/docker.sock:/var/run/docker.sock
-    # 環境変数
-    environment:
-      GITHUB_TOKEN: ${GITHUB_TOKEN}
-      GITHUB_USER: ${GITHUB_USER}
-
-  runner:
-    image: zzzcat/github-runner:latest
-    tty: true
     # 環境変数
     environment:
       GITHUB_TOKEN: ${GITHUB_TOKEN}

@@ -52,7 +52,7 @@ function run_self_hosted_runner() {
         # field and assign to the "COMMIT_STATUS" variable 
         for COMMIT_STATUS in $( get_commits_queue ${REPOSITORY_NAME} ${COMMIT} ); do
             echo "Found check run request with status ${COMMIT_STATUS}, launching job ..."
-            docker-compose run runner ${GITHUB_USER} ${REPOSITORY_NAME} ${GITHUB_TOKEN} ${RUNNER_NAME}
+            docker-compose run runner ${REPOSITORY_NAME} ${RUNNER_NAME}
             docker-compose down
         done
     done
@@ -82,7 +82,7 @@ for REPOSITORY_NAME in ${REPOSITORIES}; do
     if [ ${HAVE_RUNNERS} = "0" ]; then
         RUNNER_NAME="${REPOSITORY_NAME}-REG"
         echo "regist initial runner at ${REPOSITORY_NAME}"
-        docker-compose run runner ${GITHUB_USER} ${REPOSITORY_NAME} ${GITHUB_TOKEN} ${RUNNER_NAME} "1"
+        docker-compose run runner ${REPOSITORY_NAME} ${RUNNER_NAME} "1"
         docker-compose down
     elif [ ${HAVE_RUNNERS} = "1" ]; then
         # add repository

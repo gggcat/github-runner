@@ -32,10 +32,10 @@ services:
     tty: true
     entrypoint: bash
     #command: bash
-    #command: ${GITHUB_USER} "test_repo" ${GITHUB_TOKEN} "myrunner"
+    #command: "test_repo" "myrunner"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /host-share/work-runner/_work:/work-runner/_work:rw
+      - ./work-runner/_work:/work-runner/_work:rw
     environment:
       GITHUB_TOKEN: ${GITHUB_TOKEN}
       GITHUB_USER: ${GITHUB_USER}
