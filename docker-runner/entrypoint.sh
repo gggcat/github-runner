@@ -11,26 +11,6 @@ if [ -z ${REPOSITORY_NAME} ] || [ -z ${RUNNER_NAME} ]; then
 fi
 
 #
-# CIFS Mount
-#
-if [ -z ${CIFS_USER} ] || [ -z ${CIFS_PASS} ] || [ -z ${CIFS_HOST} ] || [ -z ${CIFS_REMOTE_PATH} ] || [ -z ${CIFS_LOCAL_PATH} ]; then
-    echo "need export CIFS_XXXXXX"
-    exit 1
-fi
-
-mkdir -p ${CIFS_LOCAL_PATH}
-mount -t cifs -o username=${CIFS_USER},password=${CIFS_PASS} //${CIFS_HOST}${CIFS_REMOTE_PATH} ${CIFS_LOCAL_PATH}
-MOUNT_STATUS=$?
-if [ ${MOUNT_STATUS} = "0" ]; then
-    echo "Mount Status: ${MOUNT_STATUS}"
-    echo "Mount From: ${CIFS_HOST}:${CIFS_REMOTE_PATH}"
-    echo "Mount To: ${CIFS_LOCAL_PATH}"
-else
-    echo "Mount Status: ${MOUNT_STATUS}"
-    exit 1
-fi
-
-#
 # Run Github Self-hosted runners
 #
 if [ -z ${GITHUB_TOKEN} ] || [ -z ${GITHUB_USER} ]; then
@@ -59,8 +39,3 @@ if [ -z ${IS_ONLY_REGIST} ]; then
 else
     echo "Skip run ... registration only"
 fi
-
-#
-# CIFS Umount
-#
-umount ${CIFS_LOCAL_PATH}

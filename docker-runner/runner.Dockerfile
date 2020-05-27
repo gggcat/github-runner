@@ -7,7 +7,6 @@ RUN apt-get update -y && \
     apt-get install -y --no-install-recommends jq && \
     apt-get install -y --no-install-recommends docker.io && \
     apt-get install -y --no-install-recommends docker-compose && \
-    apt-get install -y --no-install-recommends cifs-utils && \
     echo "*** INSTALLED: ubuntu modules ***"
 
 ENV RUNNER_ALLOW_RUNASROOT=1
