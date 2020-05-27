@@ -26,16 +26,21 @@ services:
       DOCKERHUB_TOKEN: ${DOCKERHUB_TOKEN}
 
   runner:
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
     build:
       context: .
       dockerfile: runner.Dockerfile
     tty: true
     entrypoint: bash
-    #command: bash
-    #command: "test_repo" "myrunner"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./work-runner/_work:/work-runner/_work:rw
     environment:
       GITHUB_TOKEN: ${GITHUB_TOKEN}
       GITHUB_USER: ${GITHUB_USER}
+      CIFS_USER: ${CIFS_USER}
+      CIFS_PASS: ${CIFS_PASS}
+      CIFS_HOST: ${CIFS_HOST}
+      CIFS_REMOTE_PATH: ${CIFS_REMOTE_PATH}
+      CIFS_LOCAL_PATH: ${CIFS_LOCAL_PATH}

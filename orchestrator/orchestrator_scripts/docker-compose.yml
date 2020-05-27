@@ -6,7 +6,8 @@ services:
     tty: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /work/work-runner/_work:/work-runner/_work:rw
+      #- ${WORKER_DIR}/work-runner/_work:/work-runner/_work:rw
+      #- /C/Users/g/OneDrive/devel/gggcat@github/github-runner/orchestrator/work-runner/_work:/work-runner/_work:rw
     # 環境変数
     environment:
       GITHUB_TOKEN: ${GITHUB_TOKEN}
