@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 function have_commit () {
     REPOSITORY_NAME=$1
 
@@ -58,12 +57,10 @@ function run_self_hosted_runner() {
     done
 }
 
-
-# make sure we have values for all our arguments
-[ -z ${GITHUB_TOKEN} ] || [ -z ${GITHUB_USER} ] && {
+if [ -z ${GITHUB_TOKEN} ] || [ -z ${GITHUB_USER} ]; then
     echo "need export GITHUB_USER and GITHUB_TOKEN"
     exit 1
-}
+fi
 
 SELF_HOSTED_REPOSITORIES="repositories.jsonl"
 REPOSITORIES=$(cat ${SELF_HOSTED_REPOSITORIES} | jq --slurp -r '.[].repository_name')
@@ -81,13 +78,12 @@ for REPOSITORY_NAME in ${REPOSITORIES}; do
     echo "${REPOSITORY_NAME} have runners (${HAVE_RUNNERS})"
     if [ ${HAVE_RUNNERS} = "0" ]; then
         RUNNER_NAME="${REPOSITORY_NAME}-REG"
-        echo "regist initial runner at ${REPOSITORY_NAME}"
+        echo "regist runner ${RUNNER_NAME} on ${REPOSITORY_NAME}, its registration only."
         docker-compose run runner ${REPOSITORY_NAME} ${RUNNER_NAME} "1"
         docker-compose down
     elif [ ${HAVE_RUNNERS} = "1" ]; then
-        # add repository
         RUNNER_NAME="${REPOSITORY_NAME}-RUN"
-        echo "regist runner at ${REPOSITORY_NAME} ..."
+        echo "regist runner ${RUNNER_NAME} on ${REPOSITORY_NAME} ..."
         run_self_hosted_runner ${REPOSITORY_NAME} ${RUNNER_NAME}
     else
         echo "${REPOSITORY_NAME} already have runners"

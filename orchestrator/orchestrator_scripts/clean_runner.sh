@@ -1,7 +1,5 @@
 #!/bin/bash
 
-REPOSITORY_NAME=$1
-
 function offline_runners () {
     REPOSITORY_NAME=$1
     OFFLINE_RUNNER_ID=$( curl -s -H "accept: application/vnd.github.antiope-preview+json" \
@@ -22,6 +20,10 @@ function delete_runner () {
             https://api.github.com/repos/${GITHUB_USER}/${REPOSITORY_NAME}/actions/runners/${RUNNER_ID}
 }
 
+if [ -z ${GITHUB_TOKEN} ] || [ -z ${GITHUB_USER} ]; then
+    echo "need export GITHUB_USER and GITHUB_TOKEN"
+    exit 1
+fi
 
 SELF_HOSTED_REPOSITORIES="repositories.jsonl"
 REPOSITORIES=$(cat ${SELF_HOSTED_REPOSITORIES} | jq --slurp -r '.[].repository_name')

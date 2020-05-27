@@ -6,9 +6,14 @@ services:
     tty: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      #- ${WORKER_DIR}/work-runner/_work:/work-runner/_work:rw
-      #- /C/Users/g/OneDrive/devel/gggcat@github/github-runner/orchestrator/work-runner/_work:/work-runner/_work:rw
-    # 環境変数
     environment:
       GITHUB_TOKEN: ${GITHUB_TOKEN}
       GITHUB_USER: ${GITHUB_USER}
+      CIFS_USER: ${CIFS_USER}
+      CIFS_PASS: ${CIFS_PASS}
+      CIFS_HOST: ${CIFS_HOST}
+      CIFS_REMOTE_PATH: ${CIFS_REMOTE_PATH}
+      CIFS_LOCAL_PATH: ${CIFS_LOCAL_PATH}
+    privileged: true
+    cap_add:
+      - SYS_ADMIN

@@ -14,12 +14,12 @@ services:
       DOCKERHUB_TOKEN: ${DOCKERHUB_TOKEN}
 
   orchestrator:
-    privileged: true
-    security_opt:
-      - seccomp:unconfined
-    cap_add:
-      - SYS_ADMIN
-      - DAC_READ_SEARCH
+    #privileged: true
+    #security_opt:
+    #  - seccomp:unconfined
+    #cap_add:
+    #  - SYS_ADMIN
+    #  - DAC_READ_SEARCH
     build:
       context: .
       dockerfile: orchestrator.Dockerfile
@@ -35,6 +35,11 @@ services:
     environment:
       GITHUB_TOKEN: ${GITHUB_TOKEN}
       GITHUB_USER: ${GITHUB_USER}
-      WORKER_DIR: ${WORKER_DIR}
-
-  #cifs-utils
+      CIFS_USER: ${CIFS_USER}
+      CIFS_PASS: ${CIFS_PASS}
+      CIFS_HOST: ${CIFS_HOST}
+      CIFS_REMOTE_PATH: ${CIFS_REMOTE_PATH}
+      CIFS_LOCAL_PATH: ${CIFS_LOCAL_PATH}
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
