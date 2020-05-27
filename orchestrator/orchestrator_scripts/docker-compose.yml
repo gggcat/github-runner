@@ -6,6 +6,7 @@ services:
     tty: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ${WORKER_DIR}/work-runner/_work:/work-runner/_work:rw
     environment:
       GITHUB_TOKEN: ${GITHUB_TOKEN}
       GITHUB_USER: ${GITHUB_USER}
