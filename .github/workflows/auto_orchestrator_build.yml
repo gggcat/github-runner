@@ -7,9 +7,9 @@ on:
   push:
     branches:
       - master
-    #paths:
-    #  - 'orchestrator/**'
-    #  - '!orchestrator/reference_scripts**'
+    paths:
+      - 'orchestrator/**'
+      - '!orchestrator/reference_scripts**'
   #schedule:
     # At 00:00 on Monday.
     #- cron: '0 0 * * 1'
