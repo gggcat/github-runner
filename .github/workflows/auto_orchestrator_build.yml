@@ -1,5 +1,5 @@
 # This is a basic workflow to help you get started with Actions
-name: Build Runner
+name: Build Runner Ochestrator
 
 # Controls when the action will run. Triggers the workflow on push or pull request 
 # events but only for the master branch
@@ -7,9 +7,9 @@ on:
   push:
     branches:
       - master
-    paths:
-      - 'orchestrator/**'
-      - '!orchestrator/reference_scripts**'
+    #paths:
+    #  - 'orchestrator/**'
+    #  - '!orchestrator/reference_scripts**'
   #schedule:
     # At 00:00 on Monday.
     #- cron: '0 0 * * 1'
