@@ -81,11 +81,12 @@ for REPOSITORY_NAME in ${REPOSITORIES}; do
         echo "regist runner ${RUNNER_NAME} on ${REPOSITORY_NAME}, its registration only."
         docker-compose run runner ${REPOSITORY_NAME} ${RUNNER_NAME} "1"
         docker-compose down
-    elif [ ${HAVE_RUNNERS} = "1" ]; then
+    elif [ ${HAVE_RUNNERS} -lt "5" ]; then
         RUNNER_NAME="${REPOSITORY_NAME}-RUN"
         echo "regist runner ${RUNNER_NAME} on ${REPOSITORY_NAME} ..."
         run_self_hosted_runner ${REPOSITORY_NAME} ${RUNNER_NAME}
     else
-        echo "${REPOSITORY_NAME} already have runners"
+        #echo "${REPOSITORY_NAME} already have runners"
+        echo "${REPOSITORY_NAME} already have many runners"
     fi
 done
