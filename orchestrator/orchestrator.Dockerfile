@@ -8,6 +8,7 @@ RUN apt-get update -y && \
     apt-get install -y --no-install-recommends docker.io && \
     apt-get install -y --no-install-recommends docker-compose && \
     apt-get install -y --no-install-recommends cron && \
+    apt-get install -y --no-install-recommends procps && \
     echo "*** INSTALLED: ubuntu modules ***"
 
 WORKDIR /home/orchestrator

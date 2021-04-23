@@ -57,6 +57,26 @@ function run_self_hosted_runner() {
     done
 }
 
+function offline_runners () {
+    REPOSITORY_NAME=$1
+    OFFLINE_RUNNER_ID=$( curl -s -H "accept: application/vnd.github.antiope-preview+json" \
+            -H "authorization: token ${GITHUB_TOKEN}" \
+            https://api.github.com/repos/${GITHUB_USER}/${REPOSITORY_NAME}/actions/runners \
+            | jq -r '.runners[] | select( .status == "offline" and (.name | contains("-RUN")) ) | .id' )
+
+    echo ${OFFLINE_RUNNER_ID}
+}
+
+# DELETE /repos/:owner/:repo/actions/runners/:runner_id
+function delete_runner () {
+    REPOSITORY_NAME=$1
+    RUNNER_ID=$2
+    curl -s -H "accept: application/vnd.github.antiope-preview+json" \
+            -H "authorization: token ${GITHUB_TOKEN}" \
+            -X DELETE \
+            https://api.github.com/repos/${GITHUB_USER}/${REPOSITORY_NAME}/actions/runners/${RUNNER_ID}
+}
+
 if [ -z ${GITHUB_TOKEN} ] || [ -z ${GITHUB_USER} ]; then
     echo "need export GITHUB_USER and GITHUB_TOKEN"
     exit 1
@@ -68,6 +88,13 @@ REPOSITORIES=$(cat ${SELF_HOSTED_REPOSITORIES} | jq --slurp -r '.[].repository_n
 docker-compose pull
 
 for REPOSITORY_NAME in ${REPOSITORIES}; do 
+    # Clean offline runners
+    for RUNNER_ID in $( offline_runners ${REPOSITORY_NAME} ); do
+        # clean offiline jobs
+        echo "DELETE RUNNER: ${RUNNER_ID}"
+        delete_runner ${REPOSITORY_NAME} ${RUNNER_ID}
+    done
+
     # repository have runnners?
     HAVE_RUNNERS=$(curl -s -H "accept: application/vnd.github.antiope-preview+json" \
         -H "authorization: token ${GITHUB_TOKEN}" \
@@ -81,7 +108,7 @@ for REPOSITORY_NAME in ${REPOSITORIES}; do
         echo "regist runner ${RUNNER_NAME} on ${REPOSITORY_NAME}, its registration only."
         docker-compose run runner ${REPOSITORY_NAME} ${RUNNER_NAME} "1"
         docker-compose down
-    elif [ ${HAVE_RUNNERS} -lt "5" ]; then
+    elif [ ${HAVE_RUNNERS} = "1" ]; then
         RUNNER_NAME="${REPOSITORY_NAME}-RUN"
         echo "regist runner ${RUNNER_NAME} on ${REPOSITORY_NAME} ..."
         run_self_hosted_runner ${REPOSITORY_NAME} ${RUNNER_NAME}
