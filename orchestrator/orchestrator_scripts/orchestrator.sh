@@ -68,6 +68,11 @@ function offline_runners () {
 }
 
 # DELETE /repos/:owner/:repo/actions/runners/:runner_id
+# {                                                                                                                                                     
+#   "message": "Failed to delete the specified runner, it may be actively running a job",                                                               
+#   "documentation_url": "https://docs.github.com/rest/reference/actions#delete-a-self-hosted-runner-from-a-repository"                                 
+# }
+# 使用しているトークンにadmin:orgのスコープがないと削除できずに上記エラーになる   
 function delete_runner () {
     REPOSITORY_NAME=$1
     RUNNER_ID=$2
