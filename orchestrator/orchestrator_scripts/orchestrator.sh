@@ -112,7 +112,7 @@ for REPOSITORY_NAME in ${REPOSITORIES}; do
         RUNNER_NAME="${REPOSITORY_NAME}-REG"
         echo "regist runner ${RUNNER_NAME} on ${REPOSITORY_NAME}, its registration only."
         docker-compose run runner ${REPOSITORY_NAME} ${RUNNER_NAME} "1"
-        docker-compose down
+        docker-compose down -v
     elif [ ${HAVE_RUNNERS} = "1" ]; then
         RUNNER_NAME="${REPOSITORY_NAME}-RUN"
         echo "regist runner ${RUNNER_NAME} on ${REPOSITORY_NAME} ..."
